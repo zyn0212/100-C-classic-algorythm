@@ -9,11 +9,11 @@ int main(void)
 	scanf("%d,%d", &n, &num);
 	for( i = 0; i < n; ++i )
 	{
+		sprintf(result, "%s+", result);
 		base = base * 10 + 1;
 		sum += base;
-		sprintf(result, "%s + %ld", result, base * num); 
+		sprintf(result, "%s %ld ", result, base * num); 
 	}
-	printf("%ld = %d %s", sum * num, num, result);
-	printf(" %ld\n", (base * 10 + 1) * num);
+	printf("%ld = %s", sum * num, result + 2);
 	return 0;
 }
