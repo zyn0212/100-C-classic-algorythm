@@ -14,6 +14,6 @@ int main(void)
 		sum += base;
 		sprintf(result, "%s %ld ", result, base * num); 
 	}
-	printf("%ld = %s", sum * num, result + 2);
+	printf("%ld = %s\n", sum * num, result + 2);
 	return 0;
 }
