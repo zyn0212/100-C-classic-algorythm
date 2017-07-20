@@ -12,7 +12,7 @@ int main(void)
 	for( i = 0; i < n; ++i )
 	{
 		printYH(yh, i, n - i - 1);
-		printf("\n");
+		printf("\n\n");
 	}
 	return 0;
 }
