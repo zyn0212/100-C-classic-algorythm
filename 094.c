@@ -3,17 +3,25 @@
 #include <stdlib.h>
 int main(void)
 {
-	clock_t start = clock();
+	srand(time(0));
 	int const result = rand() % 100 + 1;
 	int n = 0;
+	time_t start = time(0), end;
+	clock_t s = clock(), e;
 	do {
-		scanf("%d", &n);
+		if( 1 != scanf("%d", &n) ) {
+			while( '\n' != getchar() )
+				NULL;
+			printf("Wrong input, please input number!\n");
+			continue;
+		}
 		if( result == n )
 			break;
 		else
 			printf("%s\n", n > result ? "Larger" : "Smaller");
 	} while( 1 );
-	clock_t end = clock();
-	printf("You spend %f seconds!\n", (double)(end - start) / CLOCKS_PER_SEC);
+	end = time(0);
+	e = clock();
+	printf("You spend %6.3f seconds!\n", difftime(end, start) + ((double)(e - s)) / CLOCKS_PER_SEC * 1000);
 	return 0;
 }
