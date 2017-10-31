@@ -17,7 +17,7 @@ static int GetMatchList(PlayerInfo *a, PlayerInfo *b, int max);
 static void PrintMatchList(PlayerInfo *a, PlayerInfo *b, int max);
 static void InputPlayerInfo(PlayerInfo *PlayerInfo, char team, char loc, char playernumber);
 static void	ObtainOpponent_loc(PlayerInfo *a, PlayerInfo *b, int a_loc, int b_loc, int max);
-static void UpdateOpponentStatus(PlayerInfo *a, PlayerInfo *b, int max);
+static int UpdateOpponentStatus(PlayerInfo *a, PlayerInfo *b, int max);
 int main(int argc, char *argv[])
 {
 	int n = 0, i = 0;
@@ -46,9 +46,8 @@ int main(int argc, char *argv[])
 	printf("input team b:\n");
 	for( i = 0; i < n; ++i )
 		InputPlayerInfo(b + i, 'b', (char)i, (char)n);
-	UpdateOpponentStatus(a, b, n);
-	UpdateOpponentStatus(a, b, n);
-	UpdateOpponentStatus(a, b, n);
+	while( 0 == UpdateOpponentStatus(a, b, n) )
+		continue;
 	if( 0 == GetMatchList(a, b, n) )
 		PrintMatchList(a, b, n);
 	else
@@ -65,7 +64,7 @@ static void InitPlayerInformation(PlayerInfo *a, PlayerInfo *b, int n)
 	memset(b, 0, sizeof(PlayerInfo) * n);
 	return;
 }
-static void UpdateOpponentStatus(PlayerInfo *a, PlayerInfo *b, int max)
+static int UpdateOpponentStatus(PlayerInfo *a, PlayerInfo *b, int max)
 {
 	char a_tmp[NAMEMAX];
 	char b_tmp[NAMEMAX];
@@ -79,8 +78,11 @@ static void UpdateOpponentStatus(PlayerInfo *a, PlayerInfo *b, int max)
 	fgets(b_tmp, NAMEMAX, stdin);
 	if( '\n' == b_tmp[strlen(b_tmp) - 1] )
 		b_tmp[strlen(b_tmp) - 1] = '\0';
-	DeleteOpponent(a, b, a_tmp, b_tmp, max);
-	return;
+	if( 0 == strlen(a_tmp) || 0 == strlen(b_tmp) )
+		return 1;
+	else
+		DeleteOpponent(a, b, a_tmp, b_tmp, max);
+	return 0;
 }
 static void DeleteOpponent(PlayerInfo *a, PlayerInfo *b, char *a_name, char *b_name, int max)
 {
